@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
     private Vector3 moveDirection;
     private Camera mainCamera;
-    
+
 
     private void Awake()
     {
@@ -26,10 +26,10 @@ public class PlayerController : MonoBehaviour
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         float rayLength;
 
-        if (groundPlane.Raycast(cameraRay,out rayLength))
+        if (groundPlane.Raycast(cameraRay, out rayLength))
         {
             Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-            transform.LookAt(new Vector3(pointToLook.x,transform.position.y,pointToLook.z));
+            transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
         }
         if (Input.GetButtonDown("Fire1"))
         {
