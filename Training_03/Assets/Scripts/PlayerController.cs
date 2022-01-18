@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     public float moveSpeed;
-    private Vector2 moveVelocity;
+    private Vector2 moveDirection => new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
     private Camera mainCamera;
     
 
@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        moveVelocity = new Vector3(Input.GetAxisRaw("Horizontal"),0, Input.GetAxisRaw("Vertical")) * moveSpeed * Time.deltaTime;
+        
 
         Ray cameraRay = mainCamera.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -32,7 +32,13 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.velocity = moveVelocity;
+        HandleMovement();
+    }
+
+
+    void HandleMovement()
+    {
+        rb.velocity = moveDirection * moveSpeed * Time.deltaTime;
     }
 
     
