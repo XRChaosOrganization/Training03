@@ -7,6 +7,7 @@ public class BulletCommponent : MonoBehaviour
     //public Vector3 firedirection;
     private Rigidbody bulletRb;
     public float bulletSpeed;
+    public int currentBounces;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,13 +18,18 @@ public class BulletCommponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //bulletRb.velocity = firedirection *bulletSpeed;
+        
     }
     private void OnCollisionEnter(Collision col)
     {
-      // if (col.collider.name == "Walls")
-      // {
-      //     firedirection = Vector3.Reflect(transform.position, col.transform.position);
-      // }
+      if (col.collider.CompareTag("Obstacle"))
+      {
+            currentBounces--;
+            if (currentBounces <0)
+            {
+                //Anim destruction bullet?
+                Destroy(this.gameObject);
+            }
+      }
     }
 }

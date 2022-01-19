@@ -9,12 +9,13 @@ public class PlayerController : MonoBehaviour
     [Space]
     [Header("Components")]
     [Space]
-    
 
+    public int maxBulletBounces;
     public GameObject bulletPrefab;
     public GameObject firePoint;
     private Rigidbody rb;
     private Camera mainCamera;
+    public GameObject bulletContainer;
     PlayerInput playerInput;
 
     [Space]
@@ -112,8 +113,9 @@ public class PlayerController : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity);
+        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity,bulletContainer.transform);
         bulletGO.transform.rotation = this.gameObject.transform.rotation;
+        bulletGO.GetComponent<BulletCommponent>().currentBounces = maxBulletBounces;
 
 
         isShooting = false; //on termine l'input ici pour eviter de tirer en permanence tant qu'on reste appuyé
