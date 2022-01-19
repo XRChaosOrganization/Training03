@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletCommponent : MonoBehaviour
 {
-    //public Vector3 firedirection;
+    public bool isShot;
     private Rigidbody bulletRb;
     public float bulletSpeed;
     public int currentBounces;
@@ -13,6 +13,7 @@ public class BulletCommponent : MonoBehaviour
     {
         bulletRb = GetComponent<Rigidbody>();
         bulletRb.velocity = transform.forward * bulletSpeed;
+        StartCoroutine(EnableDamage());
     }
 
     // Update is called once per frame
@@ -22,7 +23,8 @@ public class BulletCommponent : MonoBehaviour
     }
     private void OnCollisionEnter(Collision col)
     {
-      if (col.collider.CompareTag("Obstacle"))
+       
+        if (col.collider.CompareTag("Obstacle"))
       {
             currentBounces--;
             if (currentBounces <0)
@@ -31,5 +33,27 @@ public class BulletCommponent : MonoBehaviour
                 Destroy(this.gameObject);
             }
       }
+        if (col.collider.CompareTag("Player") && isShot ==false)
+        {
+            //Anim destruction bullet?
+            col.gameObject.GetComponent<PlayerController>().TakeDamage();
+            Destroy(this.gameObject);
+        }
+       
+    }
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.CompareTag("Enemy"))
+        {
+
+            Destroy(col.gameObject);
+        }
+    }
+
+
+    IEnumerator EnableDamage()
+    {
+        yield return new WaitForSeconds(.1f);
+        isShot = false;
     }
 }

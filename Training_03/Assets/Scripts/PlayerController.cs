@@ -7,15 +7,25 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [Space]
+    [Header("Game Stats")]
+    [Space]
+    public int maxBulletBounces;
+    public int currenthealth;
+    private int maxHealth = 3;
+    
+
+    [Space]
     [Header("Components")]
     [Space]
 
-    public int maxBulletBounces;
+    public GameObject leftShipSection;
+    public GameObject rightShipSection;
     public GameObject bulletPrefab;
     public GameObject firePoint;
     private Rigidbody rb;
     private Camera mainCamera;
     public GameObject bulletContainer;
+    public static PlayerController player;
     PlayerInput playerInput;
 
     [Space]
@@ -37,9 +47,11 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        player = this;
         rb = GetComponent<Rigidbody>();
         mainCamera = FindObjectOfType<Camera>();
         playerInput = GetComponent<PlayerInput>();
+        currenthealth = maxHealth;
         
     }
 
@@ -115,7 +127,9 @@ public class PlayerController : MonoBehaviour
     {
         GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity,bulletContainer.transform);
         bulletGO.transform.rotation = this.gameObject.transform.rotation;
-        bulletGO.GetComponent<BulletCommponent>().currentBounces = maxBulletBounces;
+        BulletCommponent actualBullet = bulletGO.GetComponent<BulletCommponent>();
+        actualBullet.currentBounces = maxBulletBounces;
+        actualBullet.isShot = true;
 
 
         isShooting = false; //on termine l'input ici pour eviter de tirer en permanence tant qu'on reste appuyé
@@ -161,6 +175,46 @@ public class PlayerController : MonoBehaviour
         if (context.canceled)
             isPause = false;
     }
+
+    public void TakeDamage()
+    {
+        currenthealth--;
+        switch (currenthealth)
+        {
+            case 2:
+                //Anim destruction/particle system
+                Destroy(leftShipSection);
+                break;
+            case 1:
+                //Anim destruction/particle system
+                Destroy(rightShipSection);
+                break;
+            default:
+                //Lose Condition
+                break;
+        }
+    }
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.CompareTag("Spawner"))
+        {
+            col.gameObject.GetComponent<SpawnerComponent>().isPlayerNear(true);
+        }
+        if (col.CompareTag("Enemy"))
+        {
+            TakeDamage();
+            Destroy(col.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("Spawner"))
+        {
+            col.gameObject.GetComponent<SpawnerComponent>().isPlayerNear(false);
+        }
+    }
+   
 
     private void OnDrawGizmosSelected()
     {
