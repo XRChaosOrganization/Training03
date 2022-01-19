@@ -35,5 +35,5 @@ Material:
     - _Amplitude: 2.76
     - _TimeScale: 0.02
     m_Colors:
-    - _ColorGlow: {r: 2.1185474, g: 0.5324098, b: 0.1552862, a: 0}
+    - _ColorGlow: {r: 2.1185474, g: 0.5324098, b: 0.1552862, a: 1}
   m_BuildTextureStacks: []
