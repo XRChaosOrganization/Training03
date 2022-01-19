@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class BulletCommponent : MonoBehaviour
 {
-    public Vector3 firedirection;
+    //public Vector3 firedirection;
     private Rigidbody bulletRb;
     public float bulletSpeed;
     // Start is called before the first frame update
     void Start()
     {
         bulletRb = GetComponent<Rigidbody>();
+        bulletRb.velocity = transform.forward * bulletSpeed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        bulletRb.velocity = firedirection *bulletSpeed;
+        //bulletRb.velocity = firedirection *bulletSpeed;
     }
     private void OnCollisionEnter(Collision col)
     {

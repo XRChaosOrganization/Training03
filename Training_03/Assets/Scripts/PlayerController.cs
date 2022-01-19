@@ -1,44 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 public class PlayerController : MonoBehaviour
 {
-    public GameObject firePoint;
+    [Space]
+    [Header("Components")]
+    [Space]
+    
+
     public GameObject bulletPrefab;
+    public GameObject firePoint;
     private Rigidbody rb;
+    private Camera mainCamera;
+    PlayerInput playerInput;
+
+    [Space]
+    [Header("Controls")]
+    [Space]
+
     public float moveSpeed;
     private Vector3 moveDirection;
-    private Camera mainCamera;
+    Vector3 aimDirection;
+    Vector3 stickAim;
 
+    [Space]
+    [Header("Controls")]
+    [Space]
+    public bool isShooting;
+    public bool isPause;
+    
+    
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         mainCamera = FindObjectOfType<Camera>();
+        playerInput = GetComponent<PlayerInput>();
+        
     }
 
     public void Update()
     {
-        moveDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
-         
-        Ray cameraRay = mainCamera.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayLength;
-
-        if (groundPlane.Raycast(cameraRay, out rayLength))
-        {
-            Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-            transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
-        }
-        if (Input.GetButtonDown("Fire1"))
-        {
+        
+        if (isShooting)
             Shoot();
-        }
+        if (isPause)
+            Pause();
     }
     private void FixedUpdate()
     {
         HandleMovement();
+        HandleAim();
+
     }
 
 
@@ -47,10 +63,105 @@ public class PlayerController : MonoBehaviour
         rb.velocity = moveDirection * moveSpeed * Time.deltaTime;
     }
 
+    void HandleAim()
+    {
+
+
+            if (playerInput.currentControlScheme == "Gamepad")
+            {
+
+
+                if (stickAim == Vector3.zero)
+                {
+                    aimDirection = transform.position + transform.forward;
+                    transform.LookAt(aimDirection);
+                }
+
+                else
+                {
+                    aimDirection = stickAim + transform.position;
+                    transform.LookAt(aimDirection);
+                }
+                    
+
+
+                
+
+            }
+            else 
+            {
+                aimDirection = Vector3.zero;
+                Ray cameraRay = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+                
+                Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+                float rayLength;
+
+                if (groundPlane.Raycast(cameraRay, out rayLength))
+                {
+                    aimDirection = cameraRay.GetPoint(rayLength);
+                    aimDirection.y = transform.position.y;
+                    transform.LookAt(aimDirection);
+
+                }
+            }
+
+
+
+
+        }
+
     public void Shoot()
     {
-        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position,Quaternion.identity );
-        bulletGO.GetComponent<BulletCommponent>().firedirection = firePoint.transform.position - transform.position;
+        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity);
+        bulletGO.transform.rotation = this.gameObject.transform.rotation;
+
+
+        isShooting = false; //on termine l'input ici pour eviter de tirer en permanence tant qu'on reste appuyé
     }
-    
+
+    public void Pause()
+    {
+        //Faire Apparaitre le menu Pause
+
+
+        isPause = false;
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
+        moveDirection.x = input.x;
+        moveDirection.z = input.y;
+        moveDirection = moveDirection.normalized;
+        
+
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        isShooting = true;
+        if (context.canceled)
+            isShooting = false;
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
+        stickAim.x = input.x;
+        stickAim.z = input.y;
+        stickAim = stickAim.normalized;
+
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        isPause = true;
+        if (context.canceled)
+            isPause = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(aimDirection, 0.1f);
+    }
 }
