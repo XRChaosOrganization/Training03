@@ -7,38 +7,72 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoBehaviour
 {
     public static UIManager uIm;
+    public enum Menu { Title, Pause}
     public EventSystem eventSystem;
-    public GameObject mainCanvas;
-    public Button playButton;
-    public GameObject pauseMenu;
+    public CanvasGroup titlePanel;
+    public GameObject titleFirstSelected;
+    public CanvasGroup pausePanel;
+    public GameObject pauseFirstSelected;
+    
+
+    public AudioSource audioSource;
 
     private void Awake()
     {
         uIm = this;
+
     }
     void Start()
     {
-        eventSystem.firstSelectedGameObject = null;
-        eventSystem.firstSelectedGameObject = playButton.gameObject;
+        SetFirstSelected(Menu.Title);
         Time.timeScale = 0;
     }
 
     public void Play()
     {
-        mainCanvas.GetComponent<CanvasGroup>().alpha = 0;
-        mainCanvas.GetComponent<CanvasGroup>().interactable = false;
+        titlePanel.alpha = 0;
+        titlePanel.interactable = false;
         Time.timeScale = 1;
     }
-    public void Quit()
+
+    public void OnQuit()
     {
+        StartCoroutine(Quit());
+    }
+
+
+    public IEnumerator Quit()
+    {
+        yield return new WaitForSecondsRealtime(audioSource.clip.length);
+        
         Application.Quit();
     }
     public void Resume()
     {
-        mainCanvas.GetComponent<CanvasGroup>().alpha = 0;
-        mainCanvas.GetComponent<CanvasGroup>().interactable = false;
+        pausePanel.alpha = 0;
+        pausePanel.interactable = false;
         GameManager.gm.player.isPause = false;
         Time.timeScale = 1;
+    }
+
+    public void SetFirstSelected(Menu _menu)
+    {
+        GameObject go = new GameObject();
+
+        switch (_menu)
+        {
+            case Menu.Title:
+                go = titleFirstSelected;
+                break;
+            case Menu.Pause:
+                go = pauseFirstSelected;
+                break;
+            default:
+                break;
+        }
+
+        eventSystem.SetSelectedGameObject(go);
+        
     }
     
 }

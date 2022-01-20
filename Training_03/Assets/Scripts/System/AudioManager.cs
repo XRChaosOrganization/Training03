@@ -11,7 +11,12 @@ public class AudioManager : MonoBehaviour
     public float lerpTime;
     public List<AudioSource> audioSources;
 
-    
+
+    private void Awake()
+    {
+        am = this;
+    }
+
     IEnumerator AudioLerp(AudioSource _track, float _a, float _b)
     {
         float timer = 0f;
@@ -22,6 +27,8 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
     }
+
+    
 
     public void Mute(Track _track, bool _mute)
     {

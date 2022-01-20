@@ -37,12 +37,21 @@ public class PlayerController : MonoBehaviour
     Vector3 stickAim;
 
     [Space]
-    [Header("Controls")]
+    [Header("Logic")]
     [Space]
     public bool isShooting;
     public bool isPause;
-    
-    
+
+    [Space]
+    [Header("Audio")]
+    [Space]
+
+    public AudioSource AS_fire;
+    public AudioSource AS_hit;
+
+
+
+
 
     private void Awake()
     {
@@ -123,6 +132,9 @@ public class PlayerController : MonoBehaviour
 
     public void Shoot()
     {
+
+        AS_fire.Play();
+
         GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity,bulletContainer.transform);
         bulletGO.transform.rotation = this.gameObject.transform.rotation;
         BulletCommponent actualBullet = bulletGO.GetComponent<BulletCommponent>();
@@ -136,10 +148,10 @@ public class PlayerController : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0;
-        UIManager.uIm.pauseMenu.SetActive(true);
-        CanvasGroup canvas = UIManager.uIm.mainCanvas.GetComponent<CanvasGroup>();
-        canvas.interactable = true;
-        canvas.alpha = 1;
+        UIManager.uIm.SetFirstSelected(UIManager.Menu.Pause);
+        UIManager.uIm.pausePanel.interactable = true;
+        UIManager.uIm.pausePanel.alpha = 1;
+
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -188,10 +200,16 @@ public class PlayerController : MonoBehaviour
                 //Anim destruction/particle system
                 Destroy(rightShipSection);
                 break;
+            case 0:
+
+                //Game Over
+
+                break;
             default:
-                //Lose Condition
                 break;
         }
+
+        AS_hit.Play();
     }
     private void OnTriggerEnter(Collider col)
     {
