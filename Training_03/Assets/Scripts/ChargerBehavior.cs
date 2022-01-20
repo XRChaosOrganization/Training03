@@ -10,7 +10,7 @@ public class ChargerBehavior : MonoBehaviour
 
     private void Start()
     {
-        player = GameManager.gm.player;
+        player = GameManager.gm.player.transform;
         nav = GetComponent<NavMeshAgent>();
     }
 

@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Camera mainCamera;
     public GameObject bulletContainer;
-    public static PlayerController player;
     PlayerInput playerInput;
 
     [Space]
@@ -47,7 +46,6 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        player = this;
         rb = GetComponent<Rigidbody>();
         mainCamera = FindObjectOfType<Camera>();
         playerInput = GetComponent<PlayerInput>();
@@ -137,10 +135,11 @@ public class PlayerController : MonoBehaviour
 
     public void Pause()
     {
-        //Faire Apparaitre le menu Pause
-
-
-        isPause = false;
+        Time.timeScale = 0;
+        UIManager.uIm.pauseMenu.SetActive(true);
+        CanvasGroup canvas = UIManager.uIm.mainCanvas.GetComponent<CanvasGroup>();
+        canvas.interactable = true;
+        canvas.alpha = 1;
     }
 
     public void OnMove(InputAction.CallbackContext context)

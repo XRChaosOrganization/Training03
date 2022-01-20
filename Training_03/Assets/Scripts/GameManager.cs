@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public GameObject spawnerContainer;
     public GameObject enemyContainer;
     public GameObject enemyprefab;
-    public Transform player;
+    public PlayerController player;
     // Sera un vector 3 contenant (nb crasher,nb fly, nb blindés par ex) OU SO (mieux)!!!
     //Pour l'instant , une seule wave test avec uniquement l'ennemi crasher ;
     public int firstwaveamount = 8;
