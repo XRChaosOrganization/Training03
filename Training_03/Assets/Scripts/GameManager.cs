@@ -27,15 +27,15 @@ public class GameManager : MonoBehaviour
 
     private void Start() // SERA REMPLACEE AVEC LE SCORING DU JEU / CORRDINATION DES PHASES DE JEU ===> TEST PURPOSE
     {
-        StartCoroutine(SpawnWave(firstwaveamount));
+        StartCoroutine(SpawnWave(firstwaveamount,2f));
     }
-    public IEnumerator SpawnWave(int _crasheramount)
+    public IEnumerator SpawnWave(int _crasheramount,float _timebetweenwaves)
     {
         for (int i = 0; i < _crasheramount; i++)
         {
             UpdateSpawnerList();
             SpawnRandomly();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(_timebetweenwaves);
         }
         
         
