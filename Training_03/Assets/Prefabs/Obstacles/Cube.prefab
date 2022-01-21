@@ -157,8 +157,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   yOn: 0.5
   yOff: -0.85
-  tranitionTime: 0
+  tranitionTime: 1.5
   isActive: 0
+  targetState: 0
   sensor: {fileID: 166865503265713138}
 --- !u!208 &6314483509050143336
 NavMeshObstacle:

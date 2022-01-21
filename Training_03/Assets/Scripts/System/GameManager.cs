@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
     }
     private void SetArenaPattern(int _phasenumber)
     {
-        for (int i = 0; i < phaseList[_phasenumber].arenaPattern.activatedObsacles.Length ; i++)
+        for (int i = 0; i < phaseList[_phasenumber].arenaPattern.activatedObsacles.Length -1 ; i++)
         {
             obstaclesList[i].SetObstacleActive(phaseList[_phasenumber].arenaPattern.activatedObsacles[i]);
         }
