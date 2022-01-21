@@ -11,6 +11,7 @@ public class ButtonBehavior : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        
     }
 
     //private void Update()

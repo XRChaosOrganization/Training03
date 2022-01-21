@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Phase " + _phasenumber + " � d�but�");
         SetArenaPattern(_phasenumber);
-        AudioManager.am.Mute(phaseList[_phasenumber].track, true);
+        AudioManager.am.Mute(phaseList[_phasenumber].track, false);
         AddPowerUp(_phasenumber);
         StartCoroutine(SpawnPhaseWaves(_phasenumber));
         

@@ -27,7 +27,7 @@ public class EnemyBehaviour : MonoBehaviour
         lightsource = GetComponentInChildren<Light>();
     }
 
-    public virtual IEnumerator Destroy()
+    public virtual IEnumerator Kill()
     {
         //col.enabled = false;
         GameObject particle = (GameObject)Instantiate(GameManager.gm.explosionParticles, transform.position, Quaternion.identity, GameManager.gm.particlesContainer);
