@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        mainCamera = FindObjectOfType<Camera>();
+        mainCamera = GameManager.gm.mainCamera;
         playerInput = GetComponent<PlayerInput>();
         currenthealth = maxHealth;
         

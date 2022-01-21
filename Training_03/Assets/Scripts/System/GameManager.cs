@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager gm;
     public int score;
     
+    public Camera mainCamera;
     public PlayerController player;
     public Transform obstaclesContainer;
     public List<ObstacleComponent> obstaclesList;
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     public void EnablePhase(int _phasenumber)
     {
-        Debug.Log("Phase " + _phasenumber + " à débuté");
+        Debug.Log("Phase " + _phasenumber + " ï¿½ dï¿½butï¿½");
         SetArenaPattern(_phasenumber);
         AudioManager.am.Mute(phaseList[_phasenumber].track, true);
         AddPowerUp(_phasenumber);

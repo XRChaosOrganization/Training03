@@ -47,6 +47,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         
         yield return new WaitForSeconds(audioSource.clip.length);
+        yield return new WaitForEndOfFrame();
         Destroy(this.gameObject);
     }
 }
