@@ -16,6 +16,7 @@ public class EnemyBehaviour : MonoBehaviour
     SphereCollider col;
     Renderer rd;
     Light lightsource;
+    public bool doDestroy;
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class EnemyBehaviour : MonoBehaviour
         
         yield return new WaitForSeconds(audioSource.clip.length);
         yield return new WaitForEndOfFrame();
-        Destroy(this.gameObject);
+        doDestroy = true;
+        //Destroy(this.gameObject);
     }
 }

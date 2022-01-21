@@ -115,8 +115,9 @@ MonoBehaviour:
   nav: {fileID: 0}
   isFollow: 1
   glowMaterial: {fileID: 2100000, guid: 9e62ad2f302e11e44918a8039f625a7d, type: 2}
-  particleLifetime: {x: 8, y: 14}
+  particleLifetime: {x: 5, y: 8}
   scoreWorthPoints: 100
+  doDestroy: 0
 --- !u!195 &1114453003909603580
 NavMeshAgent:
   m_ObjectHideFlags: 0

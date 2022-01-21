@@ -25,15 +25,15 @@ public class BulletCommponent : MonoBehaviour
     {
        
         if (col.collider.CompareTag("Obstacle"))
-      {
+        {
             currentBounces--;
             if (currentBounces <0)
             {
                 //Anim destruction bullet?
                 Destroy(this.gameObject);
             }
-      }
-        if (col.collider.CompareTag("Player") && isShot ==false)
+        }
+        if (col.collider.CompareTag("Player") && isShot ==false && col.gameObject.GetComponent<PlayerController>() != null)
         {
             //Anim destruction bullet?
             col.gameObject.GetComponent<PlayerController>().TakeDamage();

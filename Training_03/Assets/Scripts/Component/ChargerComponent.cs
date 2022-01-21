@@ -9,7 +9,9 @@ public class ChargerComponent : EnemyBehaviour
     
     private void Update()
     {
-        if(isFollow)
+        if (doDestroy)
+            Destroy(this.gameObject);
+        else if(isFollow)
             nav.SetDestination(player.position);
     }
 
