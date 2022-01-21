@@ -22,10 +22,17 @@ public class PlayerController : MonoBehaviour
     public GameObject rightShipSection;
     public GameObject bulletPrefab;
     public GameObject firePoint;
+    
     private Rigidbody rb;
     private Camera mainCamera;
-    public GameObject bulletContainer;
     PlayerInput playerInput;
+
+    [Space]
+    [Header("Particles")]
+    [Space]
+
+    public Material glowMaterial;
+    public Vector2 lifetime;
 
     [Space]
     [Header("Controls")]
@@ -135,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
         AS_fire.Play();
 
-        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity,bulletContainer.transform);
+        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity,GameManager.gm.bulletContainer);
         bulletGO.transform.rotation = this.gameObject.transform.rotation;
         BulletCommponent actualBullet = bulletGO.GetComponent<BulletCommponent>();
         actualBullet.currentBounces = maxBulletBounces;
@@ -190,19 +197,24 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage()
     {
         currenthealth--;
+        GameObject particle;
         switch (currenthealth)
         {
             case 2:
-                //Anim destruction/particle system
+                particle = (GameObject)Instantiate(GameManager.gm.explosionParticles, leftShipSection.transform.position, Quaternion.identity, GameManager.gm.particlesContainer);
+                particle.GetComponent<ExplosionFXComponent>().Init(glowMaterial.GetColor("_ColorGlow"), lifetime);
+
                 Destroy(leftShipSection);
                 break;
             case 1:
-                //Anim destruction/particle system
+                particle = (GameObject)Instantiate(GameManager.gm.explosionParticles, rightShipSection.transform.position, Quaternion.identity, GameManager.gm.particlesContainer);
+                particle.GetComponent<ExplosionFXComponent>().Init(glowMaterial.GetColor("_ColorGlow"), lifetime);
                 Destroy(rightShipSection);
                 break;
             case 0:
 
                 //Game Over
+                //Faire quelque chose pour le BGM lors du game over (pitch modulation ? Fade out to base track ?)
 
                 break;
             default:

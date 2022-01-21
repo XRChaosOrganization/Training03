@@ -5,10 +5,27 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gm;
+    public PlayerController player;
+    public Transform bulletContainer;
+
+    [Space]
+    [Header("Particles")]
+    [Space]
+
+    public Transform particlesContainer;
+    public GameObject explosionParticles;
+
+
+
+    [Space]
+    [Header("Spawn")]
+    [Space]
+    
     public GameObject spawnerContainer;
     public GameObject enemyContainer;
+    
     public GameObject enemyprefab;
-    public PlayerController player;
+    
     // Sera un vector 3 contenant (nb crasher,nb fly, nb blindés par ex) OU SO (mieux)!!!
     //Pour l'instant , une seule wave test avec uniquement l'ennemi crasher ;
     public int firstwaveamount = 8;

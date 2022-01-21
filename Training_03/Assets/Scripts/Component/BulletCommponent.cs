@@ -44,10 +44,8 @@ public class BulletCommponent : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Enemy"))
-        {
-
-            Destroy(col.gameObject);
-        }
+            StartCoroutine(col.gameObject.GetComponent<EnemyBehaviour>().Destroy());
+            
     }
 
 

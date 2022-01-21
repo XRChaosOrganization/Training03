@@ -2512,6 +2512,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2357386410028468533, guid: e1289fcc1b53892429bd7e25adcd9a18, type: 3}
   m_PrefabInstance: {fileID: 1380019803}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &655940856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 655940857}
+  m_Layer: 0
+  m_Name: ParticlesContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &655940857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655940856}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1201242804}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &676073314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3651,6 +3681,7 @@ Transform:
   - {fileID: 406657412}
   - {fileID: 503800668}
   - {fileID: 1601888342}
+  - {fileID: 655940857}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3666,10 +3697,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea64793aaf5a073479f29d5ede0bc848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1708166174}
+  bulletContainer: {fileID: 406657412}
+  particlesContainer: {fileID: 655940857}
+  explosionParticles: {fileID: 514707653747520317, guid: cb5d17861dc56244a980ae8899b990c8, type: 3}
   spawnerContainer: {fileID: 503800667}
   enemyContainer: {fileID: 1601888341}
   enemyprefab: {fileID: 4021779059372486840, guid: ab98f9d52bb30df4ebaf92d1b7baabf5, type: 3}
-  player: {fileID: 1708166174}
   firstwaveamount: 8
   activeSpawners: []
   availableSpawners: []

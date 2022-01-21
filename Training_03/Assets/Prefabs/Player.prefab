@@ -139,13 +139,13 @@ MonoBehaviour:
   rightShipSection: {fileID: 788404446407667272}
   bulletPrefab: {fileID: 2025972336838127875, guid: 9340e09efb57c0c439761da96212b1bd, type: 3}
   firePoint: {fileID: 4174894727728246945}
-  bulletContainer: {fileID: 0}
+  glowMaterial: {fileID: 2100000, guid: 23bb3268e477c52458628291a81ae3cb, type: 2}
+  lifetime: {x: 15, y: 22}
   moveSpeed: 200
   isShooting: 0
   isPause: 0
   AS_fire: {fileID: 2710014502025657622}
   AS_hit: {fileID: 848373862518348611}
-  deathClip: {fileID: 8300000, guid: c3b971bf980bc884d86ac6aabbfb941c, type: 3}
 --- !u!54 &3841167655741131006
 Rigidbody:
   m_ObjectHideFlags: 0
