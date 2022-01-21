@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     {
         if (_phasenumber >4)
         {
-            //Victory Screen
+            //Easter Eggs Victory Screen
             //t'as fini bg
         }
         else
