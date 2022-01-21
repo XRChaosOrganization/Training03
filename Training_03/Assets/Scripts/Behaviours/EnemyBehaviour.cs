@@ -40,12 +40,8 @@ public class EnemyBehaviour : MonoBehaviour
             lightsource.intensity = 0f;
 
         audioSource.Play();
-
-
-        //Add Score : (provisoire)
-        GameManager.gm.score += scoreWorthPoints;
         
-
+        GameManager.gm.score += scoreWorthPoints;
         
         yield return new WaitForSeconds(audioSource.clip.length);
         yield return new WaitForEndOfFrame();

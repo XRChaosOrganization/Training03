@@ -154,7 +154,6 @@ public class GameManager : MonoBehaviour
             {
                 Instantiate(enemyprefab, availableSpawners[randomizator[i]].transform.position, Quaternion.identity, enemyContainer);
                 enemyLeftToSpawn--;
-                Debug.Log(enemyLeftToSpawn);
                 if (enemyLeftToSpawn == 0)
                 {
                     EnablePhase(_phasenumber + 1);
