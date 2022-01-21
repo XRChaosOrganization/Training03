@@ -44,7 +44,7 @@ public class EnemyBehaviour : MonoBehaviour
 
         //Add Score : (provisoire)
         GameManager.gm.score += scoreWorthPoints;
-        GameManager.gm.CheckScore();
+        
 
         
         yield return new WaitForSeconds(audioSource.clip.length);

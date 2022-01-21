@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public List<ObstacleComponent> obstaclesList;
     public Transform bulletContainer;
     public List<PhaseSO> phaseList;
+    private int enemyLeftToSpawn;
     
 
     [Space]
@@ -32,7 +33,6 @@ public class GameManager : MonoBehaviour
     public Transform enemyContainer;
     
     public GameObject enemyprefab;
-    public float timeBetweenSpawns;
     public float timeBetweenWaves;
     
     public List<GameObject> activeSpawners;
@@ -58,44 +58,32 @@ public class GameManager : MonoBehaviour
         EnablePhase(0);
     }
 
-    public void CheckScore()
+   
+    public void CheckSpawn(int _phasenumber)
     {
-        switch (score)
-        {
-            case 1000:
-                EnablePhase(1);
-                break;
-
-            case 2000:
-                EnablePhase(2);
-                break;
-
-            case 3000:
-                EnablePhase(3);
-                break;
-
-            case 4000:
-                EnablePhase(4);
-                break;
-
-            default:
-                break;
-
-        }
+        
     }
 
     public void EnablePhase(int _phasenumber)
     {
-        Debug.Log("Phase " + _phasenumber + " � d�but�");
-        SetArenaPattern(_phasenumber);
-        AudioManager.am.Mute(phaseList[_phasenumber].track, false);
-        AddPowerUp(_phasenumber);
-        StartCoroutine(SpawnPhaseWaves(_phasenumber));
-        
+        if (_phasenumber >4)
+        {
+            //Victory Screen
+            //t'as fini bg
+        }
+        else
+        {
+            enemyLeftToSpawn = phaseList[_phasenumber].enemyQty;
+            Debug.Log("Phase " + _phasenumber + " � d�but�");
+            SetArenaPattern(_phasenumber);
+            AudioManager.am.Mute(phaseList[_phasenumber].track, false);
+            AddPowerUp(_phasenumber);
+            StartCoroutine(SpawnPhaseWaves(_phasenumber));
+        }
     }
     private void SetArenaPattern(int _phasenumber)
     {
-        for (int i = 0; i < phaseList[_phasenumber].arenaPattern.activatedObsacles.Length -1 ; i++)
+        for (int i = 0; i < phaseList[_phasenumber].arenaPattern.activatedObsacles.Length-1 ; i++)
         {
             obstaclesList[i].SetObstacleActive(phaseList[_phasenumber].arenaPattern.activatedObsacles[i]);
         }
@@ -128,7 +116,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < phaseList[_phasenumber].spawnProgression.Count; i++)
         {
             UpdateSpawnerList();
-            StartCoroutine(SpawnRandomly(phaseList[_phasenumber].spawnProgression[i],_phasenumber));
+            SpawnRandomly(phaseList[_phasenumber].spawnProgression[i],_phasenumber);
             yield return new WaitForSeconds(timeBetweenWaves);
         }
     }
@@ -144,7 +132,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    public IEnumerator SpawnRandomly(int _waveQty,int _phasenumber)
+    public void SpawnRandomly(int _waveQty,int _phasenumber)
     {
         
         if (_waveQty<= availableSpawners.Count)
@@ -165,21 +153,30 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < _waveQty; i++)
             {
                 Instantiate(enemyprefab, availableSpawners[randomizator[i]].transform.position, Quaternion.identity, enemyContainer);
-                yield return new WaitForSeconds(timeBetweenSpawns);
+                enemyLeftToSpawn--;
+                Debug.Log(enemyLeftToSpawn);
+                if (enemyLeftToSpawn == 0)
+                {
+                    EnablePhase(_phasenumber + 1);
+                }
             }
+            
         }
         else
         {
+            
             int spawnsToDelay = _waveQty - availableSpawners.Count;
             phaseList[_phasenumber].spawnProgression.Add(spawnsToDelay);
             for (int i = 0; i < availableSpawners.Count; i++)
             {
                 Instantiate(enemyprefab, availableSpawners[i].transform.position, Quaternion.identity, enemyContainer);
-                yield return new WaitForSeconds(timeBetweenSpawns);
+                enemyLeftToSpawn--;
+                if (enemyLeftToSpawn == 0)
+                {
+                    EnablePhase(_phasenumber + 1);
+                }
             }
             
         }
-        
-        
     }
 }
