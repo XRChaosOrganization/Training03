@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using EZCameraShake;
 
 
 public class PlayerController : MonoBehaviour
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Camera mainCamera;
     PlayerInput playerInput;
+    Rumble rumble;
 
     [Space]
     [Header("Particles")]
@@ -72,6 +74,7 @@ public class PlayerController : MonoBehaviour
         mainCamera = GameManager.gm.mainCamera;
         playerInput = GetComponent<PlayerInput>();
         currenthealth = maxHealth;
+        rumble = GetComponent<Rumble>();
         
     }
 
@@ -231,6 +234,8 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage()
     {
         currenthealth--;
+        CameraShaker.Instance.ShakeOnce(4f, 4f, 0.1f, 0.5f);
+        rumble.Play();
         GameObject particle;
         switch (currenthealth)
         {
