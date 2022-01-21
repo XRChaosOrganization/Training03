@@ -21,7 +21,12 @@ public class PlayerController : MonoBehaviour
     public GameObject leftShipSection;
     public GameObject rightShipSection;
     public GameObject bulletPrefab;
-    public GameObject firePoint;
+    public Transform axialFirePoint;
+    public bool isLeftFireEnabled;
+    public Transform leftFirePoint;
+    public bool isRightFireEnabled;
+    public Transform rightFirePoint;
+    public bool isGameRunning;
     
     private Rigidbody rb;
     private Camera mainCamera;
@@ -87,13 +92,17 @@ public class PlayerController : MonoBehaviour
 
     void HandleMovement()
     {
-        rb.velocity = moveDirection * moveSpeed * Time.deltaTime;
+        if (isGameRunning)
+        {
+            rb.velocity = moveDirection * moveSpeed * Time.deltaTime;
+        }
+        
     }
 
     void HandleAim()
     {
-
-
+        if (isGameRunning)
+        {
             if (playerInput.currentControlScheme == "Gamepad")
             {
 
@@ -109,17 +118,17 @@ public class PlayerController : MonoBehaviour
                     aimDirection = stickAim + transform.position;
                     transform.LookAt(aimDirection);
                 }
-                    
 
 
-                
+
+
 
             }
-            else 
+            else
             {
                 aimDirection = Vector3.zero;
                 Ray cameraRay = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-                
+
                 Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
                 float rayLength;
 
@@ -132,21 +141,38 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-
-
-
         }
+    }
 
     public void Shoot()
     {
 
         AS_fire.Play();
 
-        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, firePoint.transform.position, Quaternion.identity,GameManager.gm.bulletContainer);
+        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, axialFirePoint.position, Quaternion.identity,GameManager.gm.bulletContainer);
         bulletGO.transform.rotation = this.gameObject.transform.rotation;
         BulletCommponent actualBullet = bulletGO.GetComponent<BulletCommponent>();
         actualBullet.currentBounces = maxBulletBounces;
         actualBullet.isShot = true;
+
+        if (isLeftFireEnabled)
+        {
+            GameObject leftBulletGO = (GameObject)Instantiate(bulletPrefab, leftFirePoint.position, Quaternion.identity, GameManager.gm.bulletContainer);
+            leftBulletGO.transform.rotation = leftFirePoint.rotation;
+            BulletCommponent actualLeftBullet = leftBulletGO.GetComponent<BulletCommponent>();
+            actualLeftBullet.currentBounces = maxBulletBounces;
+            actualLeftBullet.isShot = true;
+        }
+        if (isRightFireEnabled)
+        {
+            GameObject rightBulletGO = (GameObject)Instantiate(bulletPrefab, rightFirePoint.position, Quaternion.identity, GameManager.gm.bulletContainer);
+            rightBulletGO.transform.rotation = rightFirePoint.rotation;
+            BulletCommponent actualRightBullet = rightBulletGO.GetComponent<BulletCommponent>();
+            actualRightBullet.currentBounces = maxBulletBounces;
+            actualRightBullet.isShot = true;
+        }
+
+
 
 
         isShooting = false; //on termine l'input ici pour eviter de tirer en permanence tant qu'on reste appuyé
@@ -223,28 +249,23 @@ public class PlayerController : MonoBehaviour
 
         AS_hit.Play();
     }
+     
+    private void OnCollisionEnter(Collision col)
+    {
+      
+    }
     private void OnTriggerEnter(Collider col)
     {
-        if (col.CompareTag("Spawner"))
-        {
-            col.gameObject.GetComponent<SpawnerComponent>().isPlayerNear(true);
-        }
         if (col.CompareTag("Enemy"))
         {
             TakeDamage();
             Destroy(col.gameObject);
         }
     }
-
     private void OnTriggerExit(Collider col)
     {
-        if (col.CompareTag("Spawner"))
-        {
-            col.gameObject.GetComponent<SpawnerComponent>().isPlayerNear(false);
-        }
+        
     }
-   
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(aimDirection, 0.1f);

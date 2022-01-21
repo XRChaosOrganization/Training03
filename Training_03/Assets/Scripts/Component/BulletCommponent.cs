@@ -39,14 +39,16 @@ public class BulletCommponent : MonoBehaviour
             col.gameObject.GetComponent<PlayerController>().TakeDamage();
             Destroy(this.gameObject);
         }
-       
+        
+
     }
     private void OnTriggerEnter(Collider col)
     {
         if (col.CompareTag("Enemy"))
             StartCoroutine(col.gameObject.GetComponent<EnemyBehaviour>().Destroy());
-            
     }
+
+
 
 
     IEnumerator EnableDamage()

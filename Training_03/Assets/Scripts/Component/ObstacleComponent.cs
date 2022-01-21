@@ -13,7 +13,7 @@ public class ObstacleComponent : MonoBehaviour
 
     
 
-    public void SetActive(bool _b)
+    public void SetObstacleActive(bool _b)
     {
         float timer = 0f;
         Vector3 pos = transform.position;

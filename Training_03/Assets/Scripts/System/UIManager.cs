@@ -25,14 +25,15 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         SetFirstSelected(Menu.Title);
-        Time.timeScale = 0;
+        
     }
 
     public void Play()
     {
         titlePanel.alpha = 0;
         titlePanel.interactable = false;
-        Time.timeScale = 1;
+        GameManager.gm.StartGame();
+        GameManager.gm.player.isGameRunning = true;
     }
 
     public void OnQuit()

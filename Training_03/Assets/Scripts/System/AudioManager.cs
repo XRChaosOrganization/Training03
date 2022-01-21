@@ -7,7 +7,7 @@ public class AudioManager : MonoBehaviour
 
 
     public static AudioManager am;
-    public enum Track { Drum2, Synth1, Guitar1, Synth2}
+    public enum Track {None, Drum2, Synth1, Guitar1, Synth2}
     public float lerpTime;
     public List<AudioSource> audioSources;
 

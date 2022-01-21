@@ -5,8 +5,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gm;
+    public int score;
+    
     public PlayerController player;
+    public Transform obstaclesContainer;
+    public List<ObstacleComponent> obstaclesList;
     public Transform bulletContainer;
+    public List<PhaseSO> phaseList;
+    
 
     [Space]
     [Header("Particles")]
@@ -21,14 +27,13 @@ public class GameManager : MonoBehaviour
     [Header("Spawn")]
     [Space]
     
-    public GameObject spawnerContainer;
-    public GameObject enemyContainer;
+    public Transform spawnerContainer;
+    public Transform enemyContainer;
     
     public GameObject enemyprefab;
+    public float timeBetweenSpawns;
+    public float timeBetweenWaves;
     
-    // Sera un vector 3 contenant (nb crasher,nb fly, nb blindés par ex) OU SO (mieux)!!!
-    //Pour l'instant , une seule wave test avec uniquement l'ennemi crasher ;
-    public int firstwaveamount = 8;
     public List<GameObject> activeSpawners;
     public List<GameObject> availableSpawners;
         
@@ -36,40 +41,144 @@ public class GameManager : MonoBehaviour
     {
         gm = this;
         
-        foreach (Transform child in spawnerContainer.transform)
+        foreach (Transform child in obstaclesContainer)
+        {
+             obstaclesList.Add(child.gameObject.GetComponent<ObstacleComponent>());
+        }
+        
+        foreach (Transform child in spawnerContainer)
         {
             activeSpawners.Add(child.gameObject);
         }
     }
 
-    private void Start() // SERA REMPLACEE AVEC LE SCORING DU JEU / CORRDINATION DES PHASES DE JEU ===> TEST PURPOSE
+    public void StartGame() 
     {
-        StartCoroutine(SpawnWave(firstwaveamount,2f));
+        EnablePhase(0);
     }
-    public IEnumerator SpawnWave(int _crasheramount,float _timebetweenwaves)
+
+    public void CheckScore()
     {
-        for (int i = 0; i < _crasheramount; i++)
+        switch (score)
         {
-            UpdateSpawnerList();
-            SpawnRandomly();
-            yield return new WaitForSeconds(_timebetweenwaves);
+            case 1000:
+                EnablePhase(1);
+                break;
+
+            case 2000:
+                EnablePhase(2);
+                break;
+
+            case 3000:
+                EnablePhase(3);
+                break;
+
+            case 4000:
+                EnablePhase(4);
+                break;
+
+            default:
+                break;
+
+        }
+    }
+
+    public void EnablePhase(int _phasenumber)
+    {
+        Debug.Log("Phase " + _phasenumber + " à débuté");
+        SetArenaPattern(_phasenumber);
+        AudioManager.am.Mute(phaseList[_phasenumber].track, true);
+        AddPowerUp(_phasenumber);
+        StartCoroutine(SpawnPhaseWaves(_phasenumber));
+        
+    }
+    private void SetArenaPattern(int _phasenumber)
+    {
+        for (int i = 0; i < phaseList[_phasenumber].arenaPattern.activatedObsacles.Length ; i++)
+        {
+            obstaclesList[i].SetObstacleActive(phaseList[_phasenumber].arenaPattern.activatedObsacles[i]);
+        }
+    }
+    private void AddPowerUp(int _phasenumber)
+    {
+        if (phaseList[_phasenumber].powerUpToAdd == PhaseSO.powerUp.None)
+        {
+            return;
+        }
+        if (phaseList[_phasenumber].powerUpToAdd == PhaseSO.powerUp.addBounce)
+        {
+            player.maxBulletBounces++;
+        }
+        else
+        {
+            if (player.isLeftFireEnabled)
+            {
+                player.isRightFireEnabled = true;
+            }
+            else
+            {
+                player.isLeftFireEnabled = true;
+            }
         }
         
-        
     }
+    public IEnumerator SpawnPhaseWaves(int _phasenumber)
+    {
+        for (int i = 0; i < phaseList[_phasenumber].spawnProgression.Count; i++)
+        {
+            UpdateSpawnerList();
+            StartCoroutine(SpawnRandomly(phaseList[_phasenumber].spawnProgression[i],_phasenumber));
+            yield return new WaitForSeconds(timeBetweenWaves);
+        }
+    }
+    
     public void UpdateSpawnerList()
     {
+        availableSpawners.Clear();
         for (int i = 0; i < activeSpawners.Count; i++)
         {
-            if (activeSpawners[i].GetComponent<SpawnerComponent>().canSpawn == true)
+            if (activeSpawners[i].GetComponent<SpawnerComponent>().isAvailable())
             {
                 availableSpawners.Add(activeSpawners[i]);
             }
         }
     }
-    public void SpawnRandomly()
+    public IEnumerator SpawnRandomly(int _waveQty,int _phasenumber)
     {
-        Instantiate(enemyprefab,availableSpawners[Random.Range(0,availableSpawners.Count)].transform.position, Quaternion.identity, enemyContainer.transform);
+        
+        if (_waveQty<= availableSpawners.Count)
+        {
+            List<int> randomizator = new List<int>();
+            while (randomizator.Count < _waveQty)
+            {
+                int r = Random.Range(0, availableSpawners.Count);
+                if (randomizator.Contains(r))
+                {
+                    continue;
+                }
+                else
+                {
+                    randomizator.Add(r);
+                }
+            }
+            for (int i = 0; i < _waveQty; i++)
+            {
+                Instantiate(enemyprefab, availableSpawners[randomizator[i]].transform.position, Quaternion.identity, enemyContainer);
+                yield return new WaitForSeconds(timeBetweenSpawns);
+            }
+        }
+        else
+        {
+            int spawnsToDelay = _waveQty - availableSpawners.Count;
+            phaseList[_phasenumber].spawnProgression.Add(spawnsToDelay);
+            for (int i = 0; i < availableSpawners.Count; i++)
+            {
+                Instantiate(enemyprefab, availableSpawners[i].transform.position, Quaternion.identity, enemyContainer);
+                yield return new WaitForSeconds(timeBetweenSpawns);
+            }
+            
+        }
+        
         
     }
 }

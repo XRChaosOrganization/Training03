@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7542605131943997939}
   - component: {fileID: 1114453003909603580}
   - component: {fileID: 156991933907767840}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Charger
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -116,6 +116,7 @@ MonoBehaviour:
   isFollow: 1
   glowMaterial: {fileID: 2100000, guid: 9e62ad2f302e11e44918a8039f625a7d, type: 2}
   particleLifetime: {x: 8, y: 14}
+  scoreWorthPoints: 100
 --- !u!195 &1114453003909603580
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4021779059608408617}
   - component: {fileID: 4021779059608408616}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -4,12 +4,45 @@ using UnityEngine;
 
 public class SpawnerComponent : MonoBehaviour
 {
-    public bool canSpawn = true;
+    public bool isPlayerNear;
+    public bool isObstacleNear;
 
-    public void isPlayerNear(bool _isplayernear)
+
+    public bool isAvailable()
     {
-        canSpawn =! _isplayernear;
+        if (isPlayerNear || isObstacleNear)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
-    //DETECTER LES WALLS ADJACENTS !!!
+    private void OnTriggerEnter(Collider col)
+    {
+        if (col.CompareTag("Sensor"))
+        {
+            isPlayerNear = true;
+        }
+
+        if (col.CompareTag("Obstacle"))
+        {
+            isObstacleNear = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("Sensor"))
+        {
+            isPlayerNear = false;
+        }
+        if (col.CompareTag("Obstacle"))
+        {
+            isObstacleNear = false;
+        }
+    }
+    
 }

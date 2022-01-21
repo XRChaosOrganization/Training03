@@ -5,11 +5,13 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    
     public Transform player;
     public NavMeshAgent nav;
     public bool isFollow;
     public Material glowMaterial;
     public Vector2 particleLifetime;
+    public int scoreWorthPoints;
     AudioSource audioSource;
     SphereCollider col;
     Renderer rd;
@@ -39,9 +41,11 @@ public class EnemyBehaviour : MonoBehaviour
         audioSource.Play();
 
 
-        //Add Score
+        //Add Score : (provisoire)
+        GameManager.gm.score += scoreWorthPoints;
+        GameManager.gm.CheckScore();
 
-
+        
         yield return new WaitForSeconds(audioSource.clip.length);
         Destroy(this.gameObject);
     }

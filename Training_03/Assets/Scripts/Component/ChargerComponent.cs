@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class ChargerComponent : EnemyBehaviour
 {
     
+    
     private void Update()
     {
         if(isFollow)
