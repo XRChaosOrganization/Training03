@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     [Header("Controls")]
     [Space]
 
+    public bool hasControl;
     public float moveSpeed;
     private Vector3 moveDirection;
     Vector3 aimDirection;
@@ -76,16 +77,23 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
+        if (hasControl)
+        {
+            if (isShooting)
+                Shoot();
+            if (isPause)
+                Pause();
+        }
         
-        if (isShooting)
-            Shoot();
-        if (isPause)
-            Pause();
     }
     private void FixedUpdate()
     {
-        HandleMovement();
-        HandleAim();
+        if (hasControl)
+        {
+            HandleMovement();
+            HandleAim();
+        }
+        
 
     }
 
@@ -269,5 +277,11 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(aimDirection, 0.1f);
+    }
+
+    public IEnumerator Init()
+    {
+        yield return new WaitForEndOfFrame();
+        hasControl = true;
     }
 }

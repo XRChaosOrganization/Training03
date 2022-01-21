@@ -32,6 +32,7 @@ public class UIManager : MonoBehaviour
     {
         titlePanel.alpha = 0;
         titlePanel.interactable = false;
+        StartCoroutine(GameManager.gm.player.Init());
         GameManager.gm.StartGame();
         GameManager.gm.player.isGameRunning = true;
     }
