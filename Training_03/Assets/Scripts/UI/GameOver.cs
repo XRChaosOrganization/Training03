@@ -41,7 +41,11 @@ public class GameOver : MonoBehaviour
         best2.text = PlayerPrefs.GetInt("best2", best3Default).ToString();
         best3.text = PlayerPrefs.GetInt("best3", best3Default).ToString();
 
-        if(isBestScore > 0)
+        best1.gameObject.GetComponent<Animator>().SetBool("_isSelected", false);
+        best2.gameObject.GetComponent<Animator>().SetBool("_isSelected", false);
+        best2.gameObject.GetComponent<Animator>().SetBool("_isSelected", false);
+
+        if (isBestScore > 0)
         {
             foreach (Image item in stars)
                 item.gameObject.SetActive(true);
@@ -56,21 +60,21 @@ public class GameOver : MonoBehaviour
                 foreach (Image item in stars)
                     item.color = colors[0];
                 message.color = colors[0];
-                //Best1 Bounce Anim
+                best1.gameObject.GetComponent<Animator>().SetBool("_isSelected", true);
                 break;
 
             case 2 :
                 foreach (Image item in stars)
                     item.color = colors[1];
                 message.color = colors[1];
-                //Best2 Bounce Anim
+                best2.gameObject.GetComponent<Animator>().SetBool("_isSelected", true);
                 break;
 
             case 3:
                 foreach (Image item in stars)
                     item.color = colors[2];
                 message.color = colors[2];
-                //Best3 Bounce Anim
+                best3.gameObject.GetComponent<Animator>().SetBool("_isSelected", true);
                 break;
 
             default:
@@ -81,6 +85,7 @@ public class GameOver : MonoBehaviour
 
 
         canvasGroup.alpha = 1;
+        canvasGroup.interactable = true;
     }
 
     public void CheckBestScore()
