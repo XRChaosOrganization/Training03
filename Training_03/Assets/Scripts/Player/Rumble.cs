@@ -32,5 +32,9 @@ public class Rumble : MonoBehaviour
         }
     }
 
-
+    void OnApplicationQuit()
+    {
+        if (gamepad != null)
+            gamepad.SetMotorSpeeds(0, 0);
+    }
 }

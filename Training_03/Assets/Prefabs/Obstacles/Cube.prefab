@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1376308713547328706}
   - component: {fileID: 166865503265713138}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 6314483509050143336}
   m_Layer: 8
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -11,7 +11,6 @@ public class ObstacleComponent : MonoBehaviour
     public bool isActive;
     public bool targetState = true;
     public BoxCollider sensor;
-    //bool isMoving;
     float timer = 0f;
 
     private void Update()
@@ -29,7 +28,7 @@ public class ObstacleComponent : MonoBehaviour
 
                 if (timer >= tranitionTime)
                 {
-                    //isMoving = false;
+
                     timer = 0f;
                     isActive = targetState;
                     sensor.isTrigger = !targetState;
@@ -44,7 +43,7 @@ public class ObstacleComponent : MonoBehaviour
 
     public void SetObstacleActive(bool _b)
     {
-        //float timer = 0f;
+
         Vector3 pos = transform.position;
 
         if (!sensor.isTrigger && _b)
@@ -53,23 +52,6 @@ public class ObstacleComponent : MonoBehaviour
         if (isActive != _b)
         {
             targetState = _b;
-
-
-            //while (timer < tranitionTime)
-            //{
-            //    pos.y = Mathf.Lerp(_b ? yOff : yOn, _b ? yOn : yOff, timer / tranitionTime);
-            //    transform.position = pos;
-            //    timer += Time.deltaTime;
-
-
-            //}
-
-            //isActive = _b;
-            //sensor.isTrigger = !_b;
-
-
-            //}
-
 
 
         }

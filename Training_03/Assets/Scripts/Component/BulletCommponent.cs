@@ -8,7 +8,9 @@ public class BulletCommponent : MonoBehaviour
     private Rigidbody bulletRb;
     public float bulletSpeed;
     public int currentBounces;
-    // Start is called before the first frame update
+
+    Vector3 reflect;
+
     void Start()
     {
         bulletRb = GetComponent<Rigidbody>();
@@ -16,23 +18,42 @@ public class BulletCommponent : MonoBehaviour
         StartCoroutine(EnableDamage());
     }
 
-    // Update is called once per frame
     void Update()
     {
         
+        DetectObstacle();
+        bulletRb.velocity = transform.forward * bulletSpeed;
+    }
+
+    private void DetectObstacle()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 0.5f, 1 << 8))
+        {
+            ObstacleComponent obstacle = hit.transform.gameObject.GetComponent<ObstacleComponent>();
+            if (obstacle != null && !obstacle.isActive)
+            {
+                return;
+            }
+            else
+            {
+                Vector3 reflect = Vector3.Reflect(bulletRb.velocity, hit.normal);
+                Debug.DrawRay(transform.position, reflect);
+                transform.LookAt(reflect);
+                bulletRb.velocity = transform.forward * bulletSpeed;
+                currentBounces--;
+                if (currentBounces < 0)
+                {
+                    //Anim destruction bullet?
+                    Destroy(this.gameObject);
+                }
+            }
+            
+        }
     }
     private void OnCollisionEnter(Collision col)
     {
        
-        if (col.collider.CompareTag("Obstacle"))
-        {
-            currentBounces--;
-            if (currentBounces <0)
-            {
-                //Anim destruction bullet?
-                Destroy(this.gameObject);
-            }
-        }
         if (col.collider.CompareTag("Player") && isShot ==false && col.gameObject.GetComponent<PlayerController>() != null)
         {
             //Anim destruction bullet?
@@ -51,9 +72,6 @@ public class BulletCommponent : MonoBehaviour
         }
             
     }
-
-
-
 
     IEnumerator EnableDamage()
     {
