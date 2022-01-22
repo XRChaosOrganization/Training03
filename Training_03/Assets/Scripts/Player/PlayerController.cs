@@ -80,6 +80,15 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    private void Start()
+    {
+        if (!UIManager.uIm.titlePanel.gameObject.active)
+        {
+            Time.timeScale = 1f;
+            UIManager.uIm.Play();
+        }
+    }
+
     public void Update()
     {
         if (hasControl)

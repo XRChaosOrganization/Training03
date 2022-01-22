@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
@@ -117,5 +118,8 @@ public class GameOver : MonoBehaviour
             isBestScore = 0;
         }
     }
+
+
+    
 
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class UIManager : MonoBehaviour
     public GameObject pauseFirstSelected;
     public CanvasGroup scoreDisplay;
     public GameOver gameOver;
+    public Animator blackout;
     
 
     public AudioSource audioSource;
@@ -78,6 +80,21 @@ public class UIManager : MonoBehaviour
 
         eventSystem.SetSelectedGameObject(go);
         
+    }
+
+    public void LoadGame()
+    {
+        CanvasGroup gameoverPanel = gameOver.gameObject.GetComponent<CanvasGroup>();
+        gameoverPanel.alpha = 0;
+        gameoverPanel.interactable = false;
+        StartCoroutine(LoadCoroutine());
+    }
+
+    IEnumerator LoadCoroutine()
+    {
+        blackout.SetTrigger("Start");
+        yield return new WaitForSecondsRealtime(1.5f);
+        SceneManager.LoadScene(1);
     }
     
 }

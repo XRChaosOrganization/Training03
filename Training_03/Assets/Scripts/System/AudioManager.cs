@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         am = this;
+        DontDestroyOnLoad(am.gameObject);
     }
 
     IEnumerator AudioLerp(AudioSource _track, float _a, float _b)
