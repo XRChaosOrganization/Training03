@@ -28,7 +28,9 @@ public class PlayerController : MonoBehaviour
     public bool isRightFireEnabled;
     public Transform rightFirePoint;
     public bool isGameRunning;
-    
+
+    public GameObject ship;
+
     private Rigidbody rb;
     private Camera mainCamera;
     PlayerInput playerInput;
@@ -252,8 +254,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case 0:
 
-                //Game Over
-                //Faire quelque chose pour le BGM lors du game over (pitch modulation ? Fade out to base track ?)
+                StartCoroutine(GameOver());
 
                 break;
             default:
@@ -288,5 +289,25 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         hasControl = true;
+    }
+
+    public IEnumerator GameOver()
+    {
+        GameObject particle;
+        particle = (GameObject)Instantiate(GameManager.gm.explosionParticles, transform.position, Quaternion.identity, GameManager.gm.particlesContainer);
+        particle.GetComponent<ExplosionFXComponent>().Init(glowMaterial.GetColor("_ColorGlow"), lifetime);
+        GameManager.gm.audioSource.Play();
+        AudioManager.am.Mute(AudioManager.Track.Drum2, true);
+        AudioManager.am.Mute(AudioManager.Track.Guitar1, true);
+        AudioManager.am.Mute(AudioManager.Track.Synth1, true);
+        AudioManager.am.Mute(AudioManager.Track.Synth2, true);
+        ship.SetActive(false);
+        Time.timeScale = 0;
+
+        yield return new WaitForSecondsRealtime(GameManager.gm.audioSource.clip.length);
+        UIManager.uIm.scoreDisplay.alpha = 0;
+        UIManager.uIm.gameOver.Init();
+        
+
     }
 }

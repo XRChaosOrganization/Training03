@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public CanvasGroup pausePanel;
     public GameObject pauseFirstSelected;
     public CanvasGroup scoreDisplay;
+    public GameOver gameOver;
     
 
     public AudioSource audioSource;

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public Transform bulletContainer;
     public List<PhaseSO> phaseList;
     private int enemyLeftToSpawn;
+    public AudioSource audioSource;
     
 
     [Space]
@@ -41,6 +42,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         gm = this;
+
+        audioSource = GetComponent<AudioSource>();
         
         foreach (Transform child in obstaclesContainer)
         {
