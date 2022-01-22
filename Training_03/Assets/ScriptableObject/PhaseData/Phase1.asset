@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   number: 1
   track: 1
-  arenaPattern: {fileID: 11400000, guid: c6fa9d4266b8c324e95c1fc5383b60da, type: 2}
+  arenaPattern: {fileID: 11400000, guid: 80e92646b6208fb46bd6a9c871002094, type: 2}
   powerUpToAdd: 1
   enemyQty: 20
   spawnProgression: 010000000200000003000000040000000500000005000000

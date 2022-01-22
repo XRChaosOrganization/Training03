@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject titleFirstSelected;
     public CanvasGroup pausePanel;
     public GameObject pauseFirstSelected;
+    public CanvasGroup scoreDisplay;
     
 
     public AudioSource audioSource;
@@ -32,6 +33,7 @@ public class UIManager : MonoBehaviour
     {
         titlePanel.alpha = 0;
         titlePanel.interactable = false;
+        scoreDisplay.alpha = 1;
         StartCoroutine(GameManager.gm.player.Init());
         GameManager.gm.StartGame();
         GameManager.gm.player.isGameRunning = true;
