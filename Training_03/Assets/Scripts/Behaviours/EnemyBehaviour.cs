@@ -17,6 +17,7 @@ public class EnemyBehaviour : MonoBehaviour
     Renderer rd;
     Light lightsource;
     public bool doDestroy;
+    public bool isKilled;
 
     private void Awake()
     {
@@ -40,8 +41,13 @@ public class EnemyBehaviour : MonoBehaviour
             lightsource.intensity = 0f;
 
         audioSource.Play();
+
+        if (!isKilled)
+        {
+            GameManager.gm.score += scoreWorthPoints;
+            isKilled = true;
+        }
         
-        GameManager.gm.score += scoreWorthPoints;
         
         yield return new WaitForSeconds(audioSource.clip.length);
         yield return new WaitForEndOfFrame();

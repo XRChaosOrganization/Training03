@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < phaseList[_phasenumber].arenaPattern.activatedObsacles.Length-1 ; i++)
         {
             obstaclesList[i].SetObstacleActive(phaseList[_phasenumber].arenaPattern.activatedObsacles[i]);
+            obstaclesList[i].sensor.isTrigger = phaseList[_phasenumber].arenaPattern.activatedObsacles[i];
         }
     }
     private void AddPowerUp(int _phasenumber)
