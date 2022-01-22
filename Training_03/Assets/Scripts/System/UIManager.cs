@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
 
     public void SetFirstSelected(Menu _menu)
     {
-        GameObject go = new GameObject();
+        GameObject go = null;
 
         switch (_menu)
         {
