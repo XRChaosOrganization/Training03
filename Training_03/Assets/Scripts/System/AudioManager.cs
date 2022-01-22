@@ -39,13 +39,13 @@ public class AudioManager : MonoBehaviour
                 StartCoroutine(AudioLerp(audioSources[0], _mute ? 1 : 0, _mute ? 0 : 1));
                 break;
             case Track.Synth1:
-                StartCoroutine(AudioLerp(audioSources[0], _mute ? 1 : 0, _mute ? 0 : 1));
+                StartCoroutine(AudioLerp(audioSources[1], _mute ? 1 : 0, _mute ? 0 : 1));
                 break;
             case Track.Guitar1:
-                StartCoroutine(AudioLerp(audioSources[0], _mute ? 1 : 0, _mute ? 0 : 1));
+                StartCoroutine(AudioLerp(audioSources[2], _mute ? 1 : 0, _mute ? 0 : 1));
                 break;
             case Track.Synth2:
-                StartCoroutine(AudioLerp(audioSources[0], _mute ? 1 : 0, _mute ? 0 : 1));
+                StartCoroutine(AudioLerp(audioSources[3], _mute ? 1 : 0, _mute ? 0 : 1));
                 break;
             default:
                 break;

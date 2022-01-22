@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
             enemyLeftToSpawn = phaseList[_phasenumber].enemyQty;
             Debug.Log("Phase " + _phasenumber + " � d�but�");
             SetArenaPattern(_phasenumber);
+            Debug.Log(phaseList[_phasenumber].track);
             AudioManager.am.Mute(phaseList[_phasenumber].track, false);
             AddPowerUp(_phasenumber);
             StartCoroutine(SpawnPhaseWaves(_phasenumber));
